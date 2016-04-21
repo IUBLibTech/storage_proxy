@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Caches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @caches.each do |cache| %>
+      <tr>
+        <td><%= cache.name %></td>
+        <td><%= link_to 'Show', cache %></td>
+        <td><%= link_to 'Edit', edit_cache_path(cache) %></td>
+        <td><%= link_to 'Destroy', cache, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cache', new_cache_path %>
