@@ -1,5 +1,6 @@
 module StorageApi
   class MediaFilesController < ApplicationController
+    before_filter :set_store
     before_action :set_media_file, only: [:show, :edit, :update, :destroy]
 
     # GET /media_files
@@ -67,7 +68,17 @@ module StorageApi
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_media_file
-        @media_file = MediaFile.find(params[:id])
+        unless params[:store_id].nil?
+          @media_file = @store.media_files.find(params[:id])
+        else
+          @media_file = MediaFile.find(params[:id])
+        end
+      end
+
+      def set_store
+        unless params[:store_id].nil?
+          @store = Store.find(params[:store_id])
+        end
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.

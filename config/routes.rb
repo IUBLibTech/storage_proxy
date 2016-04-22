@@ -3,11 +3,20 @@ Rails.application.routes.draw do
   namespace :storage_api do
     resources :jobs
     resources :caches
+    # Limit :media_files to GET index and show
+    scope '/media_files' do
+      get '/' => 'media_files#index'
+      scope '/:id' do
+        get '/' => 'media_files#show'
+      end
+    end
     resources :stores do
-      resources :media_files, shallow: true
+      resources :media_files
     end
   end
 
+  # These function outside of the storage_api so we can easily create objects through
+  # regular views to test api routes above.
   resources :works
   resources :caches
   resources :stores
