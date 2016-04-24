@@ -1,22 +1,51 @@
 Rails.application.routes.draw do
 
   namespace :storage_api do
-    resources :jobs
-    resources :caches
-    # Limit :media_files to GET index and show
+    # Limit stores and nested media_files to GET index and show
+    scope '/stores' do
+      get '/' => 'stores#index'
+      scope '/:name' do
+        get '/' => 'stores#show'
+        scope '/media_files' do
+          get '/' => 'media_files#index'
+          scope '/:media_file_name' do
+            get '/' => 'media_files#show'
+          end
+        end
+      end
+    end
+    # Limit media_files to GET index and show
     scope '/media_files' do
       get '/' => 'media_files#index'
-      scope '/:id' do
+      scope '/:media_file_name' do
         get '/' => 'media_files#show'
       end
     end
-    resources :stores do
-      resources :media_files
+    # Limit jobs to POST, GET index and show
+    scope '/jobs' do
+      get '/' => 'jobs#index'
+      post '/' => 'jobs#create'
+      scope '/:id' do
+        get '/' => 'jobs#show'
+      end
+    end
+    # Limit caches and nested media_files to GET index and show
+    scope '/caches' do
+      get '/' => 'caches#index'
+      scope '/:name' do
+        get '/' => 'caches#show'
+        scope '/cache_files' do
+          get '/' => 'cache_files#index'
+          scope '/:cache_file_name' do
+            get '/' => 'cache_files#show'
+          end
+        end
+      end
     end
   end
 
   # These function outside of the storage_api so we can easily create objects through
-  # regular views to test api routes above.
+  # regular Rails views to test api routes above.
   resources :works
   resources :caches
   resources :stores
