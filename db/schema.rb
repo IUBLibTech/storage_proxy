@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421184101) do
+ActiveRecord::Schema.define(version: 20160426195107) do
+
+  create_table "cache_files", force: :cascade do |t|
+    t.string   "name"
+    t.string   "status"
+    t.string   "url"
+    t.integer  "cache_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "cache_files", ["cache_id"], name: "index_cache_files_on_cache_id"
 
   create_table "caches", force: :cascade do |t|
     t.string   "name"
@@ -19,10 +30,30 @@ ActiveRecord::Schema.define(version: 20160421184101) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+
   create_table "jobs", force: :cascade do |t|
     t.string   "identifier"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "type"
+    t.string   "media_file"
+    t.string   "cache"
+    t.boolean  "completed",  default: false
   end
 
   create_table "media_files", force: :cascade do |t|

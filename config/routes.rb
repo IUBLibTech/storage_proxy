@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     # Limit stores and nested media_files to GET index and show
     scope '/stores' do
       get '/' => 'stores#index'
-      scope '/:name' do
+      scope '/:store_name' do
         get '/' => 'stores#show'
         scope '/media_files' do
           get '/' => 'media_files#index'
