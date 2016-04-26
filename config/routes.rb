@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         scope '/media_files' do
           get '/' => 'media_files#index'
           scope '/:media_file_name' do
-            get '/' => 'media_files#show'
+            get '/' => 'media_files#show', :constraints => { :media_file_name => /.*/ }
           end
         end
       end
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     scope '/media_files' do
       get '/' => 'media_files#index'
       scope '/:media_file_name' do
-        get '/' => 'media_files#show'
+        get '/' => 'media_files#show', :constraints => { :media_file_name => /.*/ }
       end
     end
     # Limit jobs to POST, GET index and show
