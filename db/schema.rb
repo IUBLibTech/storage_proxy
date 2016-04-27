@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426195107) do
+ActiveRecord::Schema.define(version: 20160427141036) do
 
   create_table "cache_files", force: :cascade do |t|
     t.string   "name"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20160426195107) do
     t.integer  "store_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "size"
+    t.string   "checksum"
   end
 
   add_index "media_files", ["store_id"], name: "index_media_files_on_store_id"

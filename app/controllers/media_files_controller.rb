@@ -69,6 +69,6 @@ class MediaFilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def media_file_params
-      params.require(:media_file).permit(:name, :store_id)
+      params.require(:media_file).permit(:name, :store_id, :size, :checksum)
     end
 end
