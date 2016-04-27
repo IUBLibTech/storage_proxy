@@ -20,16 +20,16 @@ module StorageApi
       # Use callbacks to share common setup or constraints between actions.
 
       def set_cache_file
-        unless params[:cache_id].nil?
-          @cache_file = @cache.cache_files.find(params[:id])
+        unless params[:cache_name].nil?
+          @cache_file = @cache.cache_files.find_by name: (params[:cache_file_name])
         else
-          @cache_file = CacheFile.find(params[:id])
+          @cache_file = CacheFile.find_by name: (params[:cache_file_name])
         end
       end
 
       def set_cache
-        unless params[:cache_id].nil?
-          @cache = Cache.find(params[:cache_id])
+        unless params[:cache_name].nil?
+          @cache = Cache.find_by name: (params[:cache_name])
         end
       end
 

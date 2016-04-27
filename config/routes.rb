@@ -32,12 +32,12 @@ Rails.application.routes.draw do
     # Limit caches and nested media_files to GET index and show
     scope '/caches' do
       get '/' => 'caches#index'
-      scope '/:name' do
+      scope '/:cache_name' do
         get '/' => 'caches#show'
         scope '/cache_files' do
           get '/' => 'cache_files#index'
           scope '/:cache_file_name' do
-            get '/' => 'cache_files#show'
+            get '/' => 'cache_files#show', :constraints => { :cache_file_name => /.*/ }
           end
         end
       end
@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   resources :caches
   resources :stores
   resources :media_files
+  resources :cache_files
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

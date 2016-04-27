@@ -1,0 +1,34 @@
+<%= form_for(@cache_file) do |f| %>
+  <% if @cache_file.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cache_file.errors.count, "error") %> prohibited this cache_file from being saved:</h2>
+
+      <ul>
+      <% @cache_file.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field">
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :cache_id %><br>
+      <%= f.text_field :cache_id %>
+    </div>
+    <div class="field">
+      <%= f.label :status %><br>
+      <%= f.text_field :status %>
+    </div>
+    <div class="field">
+      <%= f.label :url %><br>
+      <%= f.text_field :url %>
+    </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
