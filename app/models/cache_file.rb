@@ -7,6 +7,7 @@ class CacheFile < ActiveRecord::Base
     sleep 20
     update_column :status, 'staged'
     puts self.name + " is staged"
+    update_column :url, '/cache/' + self.cache.name + '/' + self.name
   end
 
 end

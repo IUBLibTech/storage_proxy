@@ -13,33 +13,8 @@ module StorageApi
     def show
     end
 
-    # GET /jobs/new
-    def new
-      @job = Job.new
-    end
-
-    # GET /jobs/1/edit
-    def edit
-    end
-
-    # POST /jobs
-    # POST /jobs.json
-    def create_orig
-      @job = Job.new(job_params)
-
-      respond_to do |format|
-        if @job.save
-          format.html { redirect_to @job, notice: 'Job was successfully created.' }
-          format.json { render :show, status: :created, location: @job }
-        else
-          format.html { render :new }
-          format.json { render json: @job.errors, status: :unprocessable_entity }
-        end
-      end
-    end
 
     def create
-      #puts "Job created to #{params[:type]} #{params[:cache_file_name]} to #{params[:cache_name]}"
       cf = CacheFile.find_or_create_by name: (params[:cache_file_name])
       cf.cache_id = 1 # Hardcoding a relation to a cache for now for simplicity sake
       cf.save
@@ -65,16 +40,6 @@ module StorageApi
           format.html { render :edit }
           format.json { render json: @job.errors, status: :unprocessable_entity }
         end
-      end
-    end
-
-    # DELETE /jobs/1
-    # DELETE /jobs/1.json
-    def destroy
-      @job.destroy
-      respond_to do |format|
-        format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
-        format.json { head :no_content }
       end
     end
 
