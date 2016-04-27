@@ -1,12 +1,12 @@
 class CacheFile < ActiveRecord::Base
   belongs_to :cache
-  def stage(media_file)
-    sleep 5
-    update_column :status, finished
+
+  def stage
+    puts self.name + " is staging"
+    update_column :status, 'staging'
+    sleep 20
+    update_column :status, 'staged'
+    puts self.name + " is staged"
   end
 
-  def fixity(media_file)
-    sleep 5
-    update_column :status, finished
-  end
 end

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     # Limit jobs to POST, GET index and show
     scope '/jobs' do
       get '/' => 'jobs#index'
-      post '/' => 'jobs#create'
+      post '/:cache_name/:cache_file_name' => 'jobs#create', :constraints => { :media_file_name => /.*/ }
       scope '/:id' do
         get '/' => 'jobs#show'
       end

@@ -24,7 +24,7 @@ module StorageApi
 
     # POST /jobs
     # POST /jobs.json
-    def create
+    def create_orig
       @job = Job.new(job_params)
 
       respond_to do |format|
@@ -36,6 +36,12 @@ module StorageApi
           format.json { render json: @job.errors, status: :unprocessable_entity }
         end
       end
+    end
+
+    def create
+      puts "Job created to #{params[:type]} #{params[:cache_file_name]} to #{params[:cache_name]}"
+      job_rsp = {:cache_name => params[:cache_name], :cache_file_name => params[:cache_file_name], :type => params[:type]}
+      render json: job_rsp, head: :no_content
     end
 
     # PATCH/PUT /jobs/1
