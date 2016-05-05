@@ -1,3 +1,18 @@
+## Overview
+
+This application provides a simple RESTful API that mocks up the asynchronous process of staging a file from a slow storage system to a cache location for subsequent retrieval.
+
+Instead of copying files around and doing filesystem logic, the stores, caches, and the files in them are just records in ActiveRecord tables. When "staging" a file, a sleepy method is invoked that takes it's time updating a file's status and eventually returning the download URL.
+  
+So that this long-running method is non-blocking to the client, the method is invoked using the [Delayed Jobs](https://github.com/collectiveidea/delayed_job) gem, which queues up a job to run the method while control is returned to controller and back to the client. Delayed Job is database backed (vs. Redis, etc.), but it does require a process to be running to run scheduled jobs.
+
+From the client's point of view, the process is simple:
+
+1. Use the API to get status of a file in the cache
+1. Use the API to POST a job to stage a file
+1. Use the API to keep getting the status of the file
+1. Use the API to get the download URL once the "staging" is complete 
+
 ## Installation
 
 Do normal stuff to deploy
@@ -36,7 +51,7 @@ List files in the store called 'SDA'
 
     http://localhost:3000/storage_api/stores/SDA/media_files
 
-Get status and detail for a named file in the store 'SDA'
+Get detail for a named file in the store 'SDA'
 
     http://localhost:3000/storage_api/stores/SDA/media_files/MDPI_40000000054496_01_access.mp4
 
