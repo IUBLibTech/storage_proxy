@@ -18,12 +18,19 @@ module StorageApi
       cf = CacheFile.find_or_create_by name: (params[:cache_file_name])
       cf.cache_id = 1 # Hardcoding a relation to a cache for now for simplicity sake
       cf.save
-      unless cf.status == 'staging' || cf.status == 'staged'
-        # Calling stage with delay will cause it to be managed by delayed_job
-        cf.delay.stage
-        puts "Job created to #{params[:type]} #{params[:cache_file_name]} to #{params[:cache_name]}"
-      else
-        puts " #{params[:cache_file_name]} already in #{params[:cache_name]}"
+      if params[:type] == 'stage'
+        unless cf.status == 'staging' || cf.status == 'staged'
+          # Calling stage with delay will cause it to be managed by delayed_job
+          cf.delay.stage
+          puts "Job created to #{params[:type]} #{params[:cache_file_name]} to #{params[:cache_name]}"
+        else
+          puts " #{params[:cache_file_name]} already in #{params[:cache_name]}"
+        end
+      elsif params[:type] == 'unstage'
+        # Calling unstage with delay will cause it to be managed by delayed_job
+        cf.delay.unstage
+      elsif params[:type] == 'fixity'
+        # TODO
       end
       job_rsp = {:cache_name => params[:cache_name], :cache_file_name => params[:cache_file_name], :type => params[:type]}
       render json: job_rsp, head: :no_content
