@@ -1,10 +1,21 @@
 ## Installation
-    git clone
+
+Do normal stuff to deploy
+
     bundle install
     rake db:migrate
+
+The stores, caches, and files have been mocked up in ActiveRecord, so seed the database
+
     rake db:seed
+
+The process of "staging" a file to the cache is mocked up as a delayed job, so run the job queue manager
+
     ./bin/delayed_job start
-    rails -s
+
+Start the server
+
+    rails s
 
 ## Storage Proxy API
     GET  /storage_api/stores
