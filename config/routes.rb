@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  resources :stores, only: [:index, :show] do
+  resources :stores, only: [:index, :show], param: :name do
     resources :files, controller: :media_files, only: [:index, :show]
-    get 'search', to: 'stores#search'
   end
 
   resources :jobs, only: [:index, :show, :create] do
