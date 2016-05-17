@@ -1,75 +1,39 @@
 class CacheFilesController < ApplicationController
+  before_filter :set_cache
   before_action :set_cache_file, only: [:show, :edit, :update, :destroy]
 
-  # GET /cache_files
-  # GET /cache_files.json
+  # GET /caches
+  # GET /caches.json
   def index
     @cache_files = CacheFile.all
+    render json: @cache_files
   end
 
-  # GET /cache_files/1
-  # GET /cache_files/1.json
+  # GET /caches/1
+  # GET /caches/1.json
   def show
-  end
-
-  # GET /cache_files/new
-  def new
-    @cache_file = CacheFile.new
-  end
-
-  # GET /cache_files/1/edit
-  def edit
-  end
-
-  # POST /cache_files
-  # POST /cache_files.json
-  def create
-    @cache_file = CacheFile.new(cache_file_params)
-
-    respond_to do |format|
-      if @cache_file.save
-        format.html { redirect_to @cache_file, notice: 'Cache file was successfully created.' }
-        format.json { render :show, status: :created, location: @cache_file }
-      else
-        format.html { render :new }
-        format.json { render json: @cache_file.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /cache_files/1
-  # PATCH/PUT /cache_files/1.json
-  def update
-    respond_to do |format|
-      if @cache_file.update(cache_file_params)
-        format.html { redirect_to @cache_file, notice: 'Cache file was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cache_file }
-      else
-        format.html { render :edit }
-        format.json { render json: @cache_file.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /cache_files/1
-  # DELETE /cache_files/1.json
-  def destroy
-    @cache_file.destroy
-    respond_to do |format|
-      format.html { redirect_to cache_files_url, notice: 'Cache file was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    render json: @cache_file
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
     def set_cache_file
-      @cache_file = CacheFile.find(params[:id])
+      unless params[:cache_name].nil?
+        @cache_file = @cache.cache_files.find_by name: (params[:cache_file_name])
+      else
+        @cache_file = CacheFile.find_by name: (params[:cache_file_name])
+      end
+    end
+
+    def set_cache
+      unless params[:cache_name].nil?
+        @cache = Cache.find_by name: (params[:cache_name])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def cache_file_params
-      params.fetch(:cache_file, {})
-      params.require(:cache_file).permit(:name, :cache_id, :status, :url)
+    def cache_params
+      params.require(:cache).permit(:name)
     end
 end
