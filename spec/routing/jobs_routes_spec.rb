@@ -17,6 +17,8 @@ describe 'Routes starting with /jobs/' do
   end
 
   describe 'POST /jobs/:cache_name/:cache_file_name/:job_type' do
-    it 'creates a new job of :job_type for :cache_name / :cache_file_name combination'
+    it 'creates a new job of :job_type for :cache_name / :cache_file_name combination' do
+      expect(post: "/jobs/foo/bar.mov/stage").to be_routable
+    end
   end
 end
