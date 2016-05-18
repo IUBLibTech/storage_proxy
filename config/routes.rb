@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :files, controller: :media_files, only: [:index, :show]
   end
 
-  resources :jobs, only: [:index, :show, :create] do
+  resources :jobs, only: [:index, :show, :create, :destroy] do
     get 'output', to: 'jobs#output'
   end
 
