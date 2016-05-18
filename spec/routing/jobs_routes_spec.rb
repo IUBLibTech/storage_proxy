@@ -1,30 +1,22 @@
 require 'rails_helper'
 
 describe 'Routes starting with /jobs/' do
-  let(:fake_job_id) { "abc123" }
 
   describe 'GET /jobs' do
-    it 'is routable' do
-      expect(get: '/jobs').to be_routable
-    end
+    it 'TODO: return something useful'
   end
+
   describe 'GET /jobs/:id' do
-    it 'is routable' do
-      expect(get: "/jobs/#{fake_job_id}").to be_routable
+    it 'TODO: return something useful'
+  end
+
+  describe 'GET /jobs/:cache_name/:cache_file_name' do
+    it 'return a list of jobs for the :cache_name and :cache_file_name combination' do
+      expect(get: "/jobs/foo/bar.mov").to be_routable
     end
   end
 
-  describe 'POST /jobs' do
-    it 'is routable' do
-      expect(post: "/jobs").to be_routable
-    end
-  end
-
-  # TODO: Why do we need a separate URL to get the "final" status
-  # when GET /jobs/:id will give you the "current" status?
-  describe 'GET /jobs/:id/output' do
-    it 'is routable' do
-      expect(get: "/jobs/#{fake_job_id}/output").to be_routable
-    end
+  describe 'POST /jobs/:cache_name/:cache_file_name/:job_type' do
+    it 'creates a new job of :job_type for :cache_name / :cache_file_name combination'
   end
 end
