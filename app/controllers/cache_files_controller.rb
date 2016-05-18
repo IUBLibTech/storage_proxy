@@ -1,35 +1,23 @@
 class CacheFilesController < ApplicationController
-  before_filter :set_cache
-  before_action :set_cache_file, only: [:show, :edit, :update, :destroy]
+  before_action :set_cache
 
-  # GET /caches
-  # GET /caches.json
   def index
-    @cache_files = CacheFile.all
-    render json: @cache_files
+    render json: @cache.cache_files
   end
 
-  # GET /caches/1
-  # GET /caches/1.json
   def show
-    render json: @cache_file
+    cache_file = @cache.cache_files.select { |cf| cf.id.to_s == params[:id] }.first
+    json = {
+      'name' => cache_file.name,
+      'status' => cache_file.status,
+      'url' => cache_file.url
+    }
+    render json: json
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-
-    def set_cache_file
-      unless params[:cache_name].nil?
-        @cache_file = @cache.cache_files.find_by name: (params[:cache_file_name])
-      else
-        @cache_file = CacheFile.find_by name: (params[:cache_file_name])
-      end
-    end
-
     def set_cache
-      unless params[:cache_name].nil?
-        @cache = Cache.find_by name: (params[:cache_name])
-      end
+      @cache = Cache.find params[:cache_id]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
