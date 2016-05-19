@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427141036) do
+ActiveRecord::Schema.define(version: 20160519172026) do
 
   create_table "cache_files", force: :cascade do |t|
     t.string   "name"
@@ -47,13 +47,12 @@ ActiveRecord::Schema.define(version: 20160427141036) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
   create_table "jobs", force: :cascade do |t|
-    t.string   "identifier"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "type"
-    t.string   "media_file"
-    t.string   "cache"
-    t.boolean  "completed",  default: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "status"
+    t.string   "job_type"
+    t.integer  "cache_id"
+    t.string   "cache_file_name"
   end
 
   create_table "media_files", force: :cascade do |t|

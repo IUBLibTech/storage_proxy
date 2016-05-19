@@ -1,10 +1,11 @@
 class JobsController < ApplicationController
-  before_action :set_job, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_cache
+  before_action :fetch_cache_file, only: [:cache_file_jobs]
 
-  # GET /jobs
-  # GET /jobs.json
-  def index
-    @jobs = Job.all
+
+  def cache_file_jobs
+    @jobs = Job.where(cache_id: @cache.id, cache_file_name: @cache_file.name)
+    render json: @jobs
   end
 
   # GET /jobs/1
@@ -50,9 +51,18 @@ class JobsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_job
-      @job = Job.find(params[:id])
+    def fetch_cache
+      @cache = Cache.where(name: params["cache_name"]).first
+      raise ActiveRecord::RecordNotFound, "No cache by name of '#{params["cache_name"]}' was found" if @cache.nil?
+    end
+
+    def fetch_cache_file
+      @cache_file = CacheFile.where(name: params["cache_file_name"], cache_id: @cache.id).first
+      raise ActiveRecord::RecordNotFound, "No file by name of '#{params["cache_file_name"]}' found in cache #{cache.name}" if @cache_file.nil?
+    end
+
+    def fetch_job
+      @job
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

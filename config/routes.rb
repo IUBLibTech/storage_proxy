@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   #   get 'output', to: 'jobs#output'
   # end
 
-  get '/jobs/:cache_name/:cache_file_name', to: 'jobs#index', constraints: { cache_file_name: /[A-Za-z0-9_\-\.]+/ }
+  get '/jobs/:cache_name/:cache_file_name', to: 'jobs#cache_file_jobs', constraints: { cache_file_name: /[A-Za-z0-9_\-\.]+/ }
   post '/jobs/:cache_name/:cache_file_name/:job_type', to: 'jobs#create', constraints: { cache_file_name: /[A-Za-z0-9_\-\.]+/ }
 
   resources :caches, only: [:index, :show] do
