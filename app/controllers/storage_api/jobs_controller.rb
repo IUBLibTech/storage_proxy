@@ -19,18 +19,15 @@ module StorageApi
       cf.cache_id = 1 # Hardcoding a relation to a cache for now for simplicity sake
       cf.save
       if params[:type] == 'stage'
-        unless cf.status == 'staging' || cf.status == 'staged'
-          # Calling stage with delay will cause it to be managed by delayed_job
-          cf.delay.stage
-          puts "Job created to #{params[:type]} #{params[:cache_file_name]} to #{params[:cache_name]}"
-        else
-          puts " #{params[:cache_file_name]} already in #{params[:cache_name]}"
-        end
+        # Calling stage with delay will cause it to be managed by delayed_job
+        cf.delay.stage
+        puts "Job created to #{params[:type]} #{params[:cache_file_name]} to #{params[:cache_name]}"
       elsif params[:type] == 'unstage'
         # Calling unstage with delay will cause it to be managed by delayed_job
         cf.delay.unstage
       elsif params[:type] == 'fixity'
-        # TODO
+        fixity_type = (['md5', 'sha-1', 'sha-2'].include? params[:fixity_type].downcase) ? params[:fixity_type] : "md5"
+        cf.delay.fixity(fixity_type)
       end
       job_rsp = {:cache_name => params[:cache_name], :cache_file_name => params[:cache_file_name], :type => params[:type]}
       render json: job_rsp, head: :no_content
@@ -58,7 +55,7 @@ module StorageApi
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def job_params
-        params.require(:job).permit(:identifier)
+        params.require(:job).permit(:identifier, :type, :fixity_type)
       end
   end
 end

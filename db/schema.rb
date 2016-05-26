@@ -11,15 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427141036) do
+ActiveRecord::Schema.define(version: 20160526184629) do
 
   create_table "cache_files", force: :cascade do |t|
     t.string   "name"
     t.string   "status"
     t.string   "url"
     t.integer  "cache_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "checksum"
+    t.boolean  "fixity_available"
+    t.datetime "fixity_date"
+    t.string   "fixity_type"
   end
 
   add_index "cache_files", ["cache_id"], name: "index_cache_files_on_cache_id"
