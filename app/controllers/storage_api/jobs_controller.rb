@@ -26,7 +26,11 @@ module StorageApi
         # Calling unstage with delay will cause it to be managed by delayed_job
         cf.delay.unstage
       elsif params[:type] == 'fixity'
-        fixity_type = (['md5', 'sha-1', 'sha-2'].include? params[:fixity_type].downcase) ? params[:fixity_type] : "md5"
+        unless params[:fixity_type].nil?
+          fixity_type = (['md5', 'sha-1', 'sha-2'].include? params[:fixity_type].downcase) ? params[:fixity_type] : "md5"
+        else
+          fixity_type = 'md5'
+        end
         cf.delay.fixity(fixity_type)
       end
       job_rsp = {:cache_name => params[:cache_name], :cache_file_name => params[:cache_file_name], :type => params[:type]}
