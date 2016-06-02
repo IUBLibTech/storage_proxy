@@ -58,7 +58,7 @@ file_list = [
     ["MDPI_40000000542243_01_mezz.mov", 1, "34c57239b79ed6e16a428852af1f758b"]
 ]
 
-file_list.each do |name, parent_id, checksum|
+file_list.uniq.each do |name, parent_id, checksum|
   MediaFile.create( name: name, store_id: parent_id )
   CacheFile.create( name: name, cache_id: parent_id, checksum: checksum )
 end
