@@ -9,7 +9,7 @@ class CacheFile < ActiveRecord::Base
     end
     update_column :status, 'staged'
     puts self.name + " is staged"
-    update_column :url, '/cache/' + self.cache.name + '/' + self.name
+    update_column :url, 'http://hydradam.dlib.indiana.edu/cache/' + self.cache.name + '/' + self.name
   end
 
   def unstage
