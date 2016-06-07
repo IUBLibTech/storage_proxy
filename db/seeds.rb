@@ -4,6 +4,9 @@ require 'rsolr'
 store = Store.create(name: 'SDA')
 cache = Cache.create(name: 'SDADisk')
 
+# Set the place where dummy media files will be created
+cache_dir = File.join(Rails.root, 'public/cache/SDADisk')
+
 # Connect to the development Solr instance for HydraDAM app, and fetch all
 # records for FileSet objects.
 solr = RSolr.connect url: "http://localhost:8983/solr/hydra-development"
@@ -21,4 +24,6 @@ docs.each do |doc|
   checksum = doc['original_checksum_ssim'].first
   MediaFile.create( name: filename, store_id: store.id )
   CacheFile.create( name: filename, cache_id: cache.id, checksum: checksum )
+  # Copy a dummy media file into the public cache dir for each file record.
+  FileUtils.cp(cache_dir + '/dummy_media_file.mp4',cache_dir + '/' + filename)
 end
